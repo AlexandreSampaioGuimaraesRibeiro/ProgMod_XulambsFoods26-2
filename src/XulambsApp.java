@@ -1,6 +1,7 @@
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class XulambsApp {
     private List<Pizza> listaPizzas;
 
@@ -23,15 +24,35 @@ public class XulambsApp {
 
     private int exibirMenu() {
         cabecalho();
-        IO.println("1 - Comprar pizza");
+        IO.println("1 - Abrir pedido");
         IO.println("2 - Ver todas as pizzas");
         IO.println("0 - Sair");
         return Integer.parseInt(IO.readln("Digite sua opção: "));
     }
 
+    void alterarPedido(){
+        cabecalho();
+        int idPedido = Integer.parseInt(IO.readln("Nº do pedido: "));
+        String busca = String.format("Pedido nº %d", idPedido);
+        for (Pedido ped : listaDePedidos){
+            if (ped.relatorio().contains(busca)) {
+                //achei
+            }
+        }
+    }
 
+    void abrirPedido()
+    {
+        String querMais = "n";
+        Pedido novoPedido = new Pedido();
+        do{
+            Pizza novaPizza = comprarPizza();
+            novoPedido.adicionarPizza(novaPizza);
+            querMais = IO.readln("Quer mais pizza?");
+        }while(querMais.equals("s"));
+    }
 
-    void comprarPizza(){
+    Pizza comprarPizza(){
         cabecalho();
         int adicionais = 
             Integer.parseInt(IO.readln("Quantos ingredientes? "));
@@ -41,6 +62,7 @@ public class XulambsApp {
 
         mostrarNota(nova);
         listaPizzas.add(nova);
+        return nova;
     }
 
     void mostrarNota(Pizza pizza){
@@ -62,7 +84,7 @@ public class XulambsApp {
         do {
             opcao = exibirMenu();
             switch (opcao) {
-                case 1 -> comprarPizza();
+                case 1 -> abrirPedido();
                 case 2 -> mostrarPizzas();
                 case 0 -> IO.println("Encerrando!");
                 default -> IO.println("Opção inválida");
