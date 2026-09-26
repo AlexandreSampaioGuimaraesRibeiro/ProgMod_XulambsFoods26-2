@@ -23,16 +23,23 @@
 */
 
 public enum EBorda {
-    CHEDDAR(10),
-    CHOCOLATE(8),
-    REQUEIJAO(7),
-    TRADICIONAL(0);
+    CHEDDAR(10, "de cheddar"),
+    CHOCOLATE(8,"de chocolate"),
+    DOCE_DE_LEITE(9.25, "de doce de leite"),
+    REQUEIJAO(7,"de requeijao"),
+    TRADICIONAL(0, "tradicional");
 
     double valor;
-    EBorda(double preco){
+    String nome;
+    EBorda(double preco, String descricao){
         valor = preco;
+        nome = descricao;
     }
     public double getValor(){
         return  valor;
+    }
+
+    public String getNome(){
+        return nome;
     }
 }
