@@ -24,7 +24,7 @@ public class XulambsApp {
 
     void cabecalho(){
         limparTela();
-        IO.println("XULAMBS PIZZA - v0.2");
+        IO.println("XULAMBS PIZZA - v0.3");
         IO.println("=====================");
         IO.println("Pizzas vendidas hoje: " +
                     Pizza.getPizzasVendidas());
@@ -42,13 +42,29 @@ public class XulambsApp {
 
     Pizza comprarPizza(){
         cabecalho();
-        int adicionais = lerNumero("Quantos ingredientes? ");
-    
-        Pizza nova = new Pizza();
-        nova.adicionarIngredientes(adicionais);
+        int adicionais; 
+        Pizza novaPizza = new Pizza();
 
-        mostrarNota(nova);
-        return nova;
+        EBorda borda = escolherBorda();
+        novaPizza.adicionarBorda(borda);
+        
+        adicionais = lerNumero("Quantos ingredientes? ");
+        novaPizza.adicionarIngredientes(adicionais);
+
+        mostrarNota(novaPizza);
+        return novaPizza;
+    }
+
+    EBorda escolherBorda(){
+        EBorda[] bordas = EBorda.values();
+        int i = 1;
+        IO.println("Escolha sua borda: ");
+        for (EBorda eBorda : bordas) {
+            IO.println(String.format("%d - Borda %s", i, eBorda.getNome()));
+            i++;
+        }
+        int escolha = lerNumero("Digite sua opção: ");
+        return bordas[escolha-1];
     }
 
     void mostrarNota(Pizza pizza){
