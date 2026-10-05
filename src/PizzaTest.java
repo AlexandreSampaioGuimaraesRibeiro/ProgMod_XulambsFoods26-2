@@ -65,7 +65,7 @@ public class PizzaTest {
     @Test
     public void cupomContemDetalhamento(){
         //Act
-        String cupom = pizza.gerarCupom();
+        String cupom = pizza.toString();
 
         //Assert
         assertTrue( 

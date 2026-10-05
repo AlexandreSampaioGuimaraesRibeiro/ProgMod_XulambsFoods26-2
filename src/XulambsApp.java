@@ -24,7 +24,7 @@ public class XulambsApp {
 
     void cabecalho(){
         limparTela();
-        IO.println("XULAMBS PIZZA - v0.3");
+        IO.println("XULAMBS PIZZA - v0.4");
         IO.println("=====================");
         IO.println("Pizzas vendidas hoje: " +
                     Pizza.getPizzasVendidas());
@@ -51,7 +51,7 @@ public class XulambsApp {
         adicionais = lerNumero("Quantos ingredientes? ");
         novaPizza.adicionarIngredientes(adicionais);
 
-        mostrarNota(novaPizza);
+        exibirRelatorio(novaPizza);
         return novaPizza;
     }
 
@@ -67,19 +67,32 @@ public class XulambsApp {
         return bordas[escolha-1];
     }
 
-    void mostrarNota(Pizza pizza){
-        IO.println("Pizza comprada:");
-        IO.println(pizza.gerarCupom());
-        IO.println("=====================");
-    }
-
+   
     void armazenarPedido(Pedido pedido){
         if(pedido != null)
             listaPedidos.add(pedido);
     }
 
+    PedidoEntrega criarPedidoEntrega(){
+        String dist = IO.readln("Qual a distância da entrega? ");
+        double distancia = Double.parseDouble(dist);
+        return new PedidoEntrega(distancia);
+    }
+    
+    Pedido escolherTipoPedido(){
+        cabecalho();
+        IO.println("Escolha o tipo do pedido: ");
+        IO.println("1 - Local ");
+        IO.println("2 - Para entrega");
+        int escolha = lerNumero("Digite sua opção: ");
+        return switch (escolha) {
+            case 1 -> new Pedido();
+            case 2 -> criarPedidoEntrega();
+            default -> null;
+        };
+    }
     void abrirPedido(){
-        Pedido novoPedido = new Pedido();
+        Pedido novoPedido = escolherTipoPedido();
         String novaPizza;
         do {
             Pizza pizza = comprarPizza();
@@ -91,7 +104,7 @@ public class XulambsApp {
     }
 
     void alterarPedido(){
-        Pedido buscado = localizarPedido();
+        Pedido buscado = (Pedido)localizar();
         if(buscado != null){
             Pizza pizza = comprarPizza();
             buscado.adicionarPizza(pizza);
@@ -100,43 +113,49 @@ public class XulambsApp {
     }
 
     void relatorioPedido(){
-        Pedido buscado = localizarPedido();
+        Pedido buscado = (Pedido)localizar();
         if(buscado != null){
             exibirRelatorio(buscado);
         }
     }
 
      void encerrarPedido(){
-        Pedido buscado = localizarPedido();
+        Pedido buscado = (Pedido)localizar();
         if(buscado != null){
             buscado.fecharPedido();
             exibirRelatorio(buscado);
         }
     }
 
-    Pedido localizarPedido(){
+    Object localizar(){
         cabecalho();
         IO.println("LOCALIZAÇÃO DE PEDIDOS\n");
         int codigo = lerNumero("Código do pedido: ");
-        Pedido localizado = null;
+        Object localizado = null;
         for (int i = 0; i < listaPedidos.size() && localizado == null; i++) {
-            Pedido candidato = listaPedidos.get(i);
-            if(candidato.getID() == codigo){
+            Object candidato = listaPedidos.get(i);
+            if(candidato.hashCode() == codigo){
                 localizado = candidato;
             }
         }
         return localizado;            
     }
 
-    void exibirRelatorio(Pedido pedido){
+    void exibirRelatorio(Object objeto){
         cabecalho();
-        IO.println("RELATÓRIO DE PEDIDO\n");
-        String mensagem = "Pedido não encontrado";
-        if(pedido != null)
-            mensagem = pedido.relatorio();
+        IO.println("RELATÓRIO:\n");
+        String mensagem = "Objeto não encontrado";
+        if(objeto != null)
+            mensagem = objeto.toString();
        
         IO.println(mensagem);
     }
+
+    //  void mostrarNota(Pizza pizza){
+    //     IO.println("Pizza comprada:");
+    //     IO.println(pizza.toString());
+    //     IO.println("=====================");
+    // }
 
     void main(){
         int opcao;

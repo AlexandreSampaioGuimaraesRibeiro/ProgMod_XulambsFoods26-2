@@ -24,11 +24,12 @@
 
 import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Pedido {
-    private static int ultimoPedido;
+    private  static int ultimoPedido;
     private LocalDate data;
-    private LinkedList<Pizza> pizzas;
+    protected LinkedList<Pizza> pizzas;
     private int idPedido;
     private boolean aberto;
 
@@ -40,7 +41,7 @@ public class Pedido {
         aberto = true;
     }
 
-    private boolean podeAdicionar(){
+    protected  boolean podeAdicionar(){
         return aberto;
     }
 
@@ -67,20 +68,43 @@ public class Pedido {
         return preco;
     }
 
-    public String relatorio(){
-        StringBuilder cupom = new StringBuilder();
-        
+    protected String cabecalho(){
         String estado = aberto ? "aberto" : "fechado";
-        
-        cupom.append( String.format("Pedido nº %d - %s (%s) com %d pizzas\n", idPedido, data, estado, pizzas.size()));
-           
+        return ( String.format("Pedido nº %d - %s (%s) com %d pizzas\n", idPedido, data, estado, pizzas.size()));
+    }
+
+    protected String detalhesPedido(){
+        StringBuilder detalhes = new StringBuilder();
         for (Pizza pizza : pizzas) {
-            cupom.append(String.format("----\n%s\n", 
-                            pizza.gerarCupom()));
+            detalhes.append(String.format("----\n%s\n", 
+                            pizza.toString()));
         }
+        return detalhes.toString();
+    }
+
+    @Override 
+    public String toString(){
+        StringBuilder cupom = new StringBuilder(cabecalho());
+        cupom.append("PEDIDO LOCAL\n");
+        cupom.append(detalhesPedido()+"\n");
+        
         cupom.append(String.format("VALOR: R$ %.2f", 
                             precoAPagar()));
 
         return cupom.toString();
+    }
+
+    @Override 
+    public boolean equals(Object obj){
+        Pedido outro = (Pedido)obj;
+        return (
+            this.idPedido == outro.idPedido &&
+            this.data.equals(outro.data)
+        );
+    }
+
+    @Override 
+    public int hashCode(){
+       return  idPedido;
     }
 }

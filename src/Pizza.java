@@ -89,7 +89,8 @@ public class Pizza {
      * dos adicionais e valor final.
      * @return String com as informações descritas.
      */
-	public String gerarCupom() {
+    @Override 
+	public String toString() {
 		String cupom = "";
         
         cupom += String.format("Pizza com %d ingredientes e borda %s\n",      quantidadeIngredientes, borda.getNome());
@@ -101,6 +102,11 @@ public class Pizza {
 
         return cupom;
 	}
+
+    @Override 
+    public  int hashCode(){
+        return this.toString().hashCode();
+    }
 
     /**
      * Verifica se a quantidade de ingredientes passada pode

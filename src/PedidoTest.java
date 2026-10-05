@@ -59,7 +59,7 @@ public class PedidoTest {
         //Arrange
         pedido.adicionarPizza(new Pizza());
         //Act
-        String cupom = pedido.relatorio();
+        String cupom = pedido.toString();
         assertTrue(
             cupom.contains("2 pizzas") &&
             cupom.contains("58,00")
