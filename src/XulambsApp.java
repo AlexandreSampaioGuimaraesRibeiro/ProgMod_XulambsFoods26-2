@@ -24,7 +24,7 @@ public class XulambsApp {
 
     void cabecalho(){
         limparTela();
-        IO.println("XULAMBS PIZZA - v0.3");
+        IO.println("XULAMBS PIZZA - v0.4");
         IO.println("=====================");
         IO.println("Pizzas vendidas hoje: " +
                     Pizza.getPizzasVendidas());
@@ -78,8 +78,26 @@ public class XulambsApp {
             listaPedidos.add(pedido);
     }
 
+    PedidoEntrega criarPedidoEntrega(){
+        String dist = IO.readln("Qual a distância da entrega? ");
+        double distancia = Double.parseDouble(dist);
+        return new PedidoEntrega(distancia);
+    }
+    
+    Pedido escolherTipoPedido(){
+        cabecalho();
+        IO.println("Escolha o tipo do pedido: ");
+        IO.println("1 - Local ");
+        IO.println("2 - Para entrega");
+        int escolha = lerNumero("Digite sua opção: ");
+        return switch (escolha) {
+            case 1 -> new Pedido();
+            case 2 -> criarPedidoEntrega();
+            default -> null;
+        };
+    }
     void abrirPedido(){
-        Pedido novoPedido = new Pedido();
+        Pedido novoPedido = escolherTipoPedido();
         String novaPizza;
         do {
             Pizza pizza = comprarPizza();

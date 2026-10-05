@@ -26,9 +26,9 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class Pedido {
-    private static int ultimoPedido;
+    private  static int ultimoPedido;
     private LocalDate data;
-    private LinkedList<Pizza> pizzas;
+    protected LinkedList<Pizza> pizzas;
     private int idPedido;
     private boolean aberto;
 
@@ -40,7 +40,7 @@ public class Pedido {
         aberto = true;
     }
 
-    private boolean podeAdicionar(){
+    protected  boolean podeAdicionar(){
         return aberto;
     }
 
