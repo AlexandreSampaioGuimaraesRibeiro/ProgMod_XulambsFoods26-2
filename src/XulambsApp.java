@@ -51,7 +51,7 @@ public class XulambsApp {
         adicionais = lerNumero("Quantos ingredientes? ");
         novaPizza.adicionarIngredientes(adicionais);
 
-        mostrarNota(novaPizza);
+        exibirRelatorio(novaPizza);
         return novaPizza;
     }
 
@@ -67,12 +67,7 @@ public class XulambsApp {
         return bordas[escolha-1];
     }
 
-    void mostrarNota(Pizza pizza){
-        IO.println("Pizza comprada:");
-        IO.println(pizza.gerarCupom());
-        IO.println("=====================");
-    }
-
+   
     void armazenarPedido(Pedido pedido){
         if(pedido != null)
             listaPedidos.add(pedido);
@@ -109,7 +104,7 @@ public class XulambsApp {
     }
 
     void alterarPedido(){
-        Pedido buscado = localizarPedido();
+        Pedido buscado = (Pedido)localizar();
         if(buscado != null){
             Pizza pizza = comprarPizza();
             buscado.adicionarPizza(pizza);
@@ -118,43 +113,49 @@ public class XulambsApp {
     }
 
     void relatorioPedido(){
-        Pedido buscado = localizarPedido();
+        Pedido buscado = (Pedido)localizar();
         if(buscado != null){
             exibirRelatorio(buscado);
         }
     }
 
      void encerrarPedido(){
-        Pedido buscado = localizarPedido();
+        Pedido buscado = (Pedido)localizar();
         if(buscado != null){
             buscado.fecharPedido();
             exibirRelatorio(buscado);
         }
     }
 
-    Pedido localizarPedido(){
+    Object localizar(){
         cabecalho();
         IO.println("LOCALIZAÇÃO DE PEDIDOS\n");
         int codigo = lerNumero("Código do pedido: ");
-        Pedido localizado = null;
+        Object localizado = null;
         for (int i = 0; i < listaPedidos.size() && localizado == null; i++) {
-            Pedido candidato = listaPedidos.get(i);
-            if(candidato.getID() == codigo){
+            Object candidato = listaPedidos.get(i);
+            if(candidato.hashCode() == codigo){
                 localizado = candidato;
             }
         }
         return localizado;            
     }
 
-    void exibirRelatorio(Pedido pedido){
+    void exibirRelatorio(Object objeto){
         cabecalho();
-        IO.println("RELATÓRIO DE PEDIDO\n");
-        String mensagem = "Pedido não encontrado";
-        if(pedido != null)
-            mensagem = pedido.relatorio();
+        IO.println("RELATÓRIO:\n");
+        String mensagem = "Objeto não encontrado";
+        if(objeto != null)
+            mensagem = objeto.toString();
        
         IO.println(mensagem);
     }
+
+    //  void mostrarNota(Pizza pizza){
+    //     IO.println("Pizza comprada:");
+    //     IO.println(pizza.toString());
+    //     IO.println("=====================");
+    // }
 
     void main(){
         int opcao;

@@ -26,7 +26,7 @@ public class PedidoEntregaTest {
     @Test 
     public void relatorioContemEntrega(){
         //act
-        String cupom = pedido.relatorio();
+        String cupom = pedido.toString();
         //assert
         assertTrue(
             cupom.contains("ENTREGA") &&
